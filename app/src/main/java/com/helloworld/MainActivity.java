@@ -16,6 +16,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d("MONDAY_CLASS", "onCreate() is called");
         Button btn = findViewById(R.id.btnActivityStarter);
         btn.setOnClickListener(this);
+        Button movieBtn = findViewById(R.id.movie);
+        movieBtn.setOnClickListener(this);
 
 
     }
@@ -60,12 +62,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         Log.d("MONDAY_CLASS", "onClick() of button is called");
-        Intent intent = new Intent(this, SecondActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("name", "junaid");
-        bundle.putString("location", "lahore");
-        intent.putExtras(bundle);
-        startActivity(intent);
+        switch (v.getId()) {
+            case R.id.movie:
+                startActivity(new Intent(this, LayoutActivity.class));
+                break;
+            case R.id.btnActivityStarter:
+                Intent intent = new Intent(this, SecondActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("name", "junaid");
+                bundle.putString("location", "lahore");
+                intent.putExtras(bundle);
+                startActivity(intent);
+                break;
+        }
 
     }
 }
