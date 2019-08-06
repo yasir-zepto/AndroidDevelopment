@@ -19,6 +19,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button movieBtn = findViewById(R.id.movie);
         movieBtn.setOnClickListener(this);
 
+        /*6th August, 2019 about edit text*/
+        Button btnETActivity = findViewById(R.id.btn_et_activity);
+        btnETActivity.setOnClickListener(this);
+
 
     }
 
@@ -73,6 +77,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 bundle.putString("location", "lahore");
                 intent.putExtras(bundle);
                 startActivity(intent);
+                break;
+            case R.id.btn_et_activity:
+                /*6th August, 2019 about edit text*/
+                startActivity(new Intent(this, EditTextActivity.class));
                 break;
         }
 
