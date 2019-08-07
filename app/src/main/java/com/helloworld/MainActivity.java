@@ -23,6 +23,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btnETActivity = findViewById(R.id.btn_et_activity);
         btnETActivity.setOnClickListener(this);
 
+        Button btnRv = findViewById(R.id.btn_rv_activity);
+        btnRv.setOnClickListener(this);
+
 
     }
 
@@ -81,6 +84,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_et_activity:
                 /*6th August, 2019 about edit text*/
                 startActivity(new Intent(this, EditTextActivity.class));
+                break;
+            case R.id.btn_rv_activity:
+                startActivity(new Intent(this, ListActivity.class));
                 break;
         }
 
