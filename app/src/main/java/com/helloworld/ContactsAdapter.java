@@ -14,6 +14,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
     //data that would be populated in the view
 
+    private OnItemClickListener onItemClickListener;
+
     private String[] contacts = {"Junaid", "Umar", "Usama","Junaid", "Umar", "Usama","Junaid", "Umar", "Usama"};
 
 
@@ -55,11 +57,26 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
         return contacts.length;
     }
 
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
     class ContactVH extends RecyclerView.ViewHolder {
         TextView txtName;
 
         public ContactVH(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemClickListener != null) {
+                        int position = getAdapterPosition();
+                        String contact = contacts[position];
+                        onItemClickListener.onItemClick(position,contact);
+                    }
+                }
+            });
             txtName = itemView.findViewById(R.id.txt_name);
         }
 
