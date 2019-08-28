@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d("MONDAY_CLASS", "onClick() of button is called");
         switch (v.getId()) {
             case R.id.movie:
-                startActivity(new Intent(this, LayoutActivity.class));
+                startActivity(new Intent(this, DrawableActivity.class));
                 break;
             case R.id.btnActivityStarter:
                 Intent intent = new Intent(this, SecondActivity.class);
