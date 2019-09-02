@@ -26,6 +26,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btnRv = findViewById(R.id.btn_rv_activity);
         btnRv.setOnClickListener(this);
 
+        Button btnLifecycle = findViewById(R.id.btnLifeCycle);
+
+        btnLifecycle.setOnClickListener(this);
+
 
     }
 
@@ -82,11 +86,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.btn_et_activity:
-                /*6th August, 2019 about edit text*/
+//6th August, 2019 about edit text
+
                 startActivity(new Intent(this, EditTextActivity.class));
                 break;
             case R.id.btn_rv_activity:
                 startActivity(new Intent(this, ListActivity.class));
+                break;
+            case R.id.btnLifeCycle:
+                Intent lifeCycleIntent = new Intent(this, LifeCycleActivity.class);
+                startActivity(lifeCycleIntent);
                 break;
         }
 
