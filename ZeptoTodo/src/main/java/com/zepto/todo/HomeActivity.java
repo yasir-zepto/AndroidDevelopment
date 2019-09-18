@@ -9,7 +9,11 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
     TodoAdapter adapter = new TodoAdapter();
@@ -20,7 +24,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         rvTodo = findViewById(R.id.rv_todo);
-       /* adapter.data.add(new Todo("My First dummy Todo", false));
+        adapter.data.add(new Todo("My First dummy Todo", false));
         adapter.data.add(new Todo("Create Todo App", false));
         adapter.data.add(new Todo("Create List View", false));
         adapter.data.add(new Todo("Exercise at 4 pm", false));
@@ -44,12 +48,29 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         adapter.data.add(new Todo("Meeting with a friend", false));
         adapter.data.add(new Todo("Meeting with a friend", false));
         adapter.data.add(new Todo("Meeting with a friend", false));
-        adapter.data.add(new Todo("Meeting with a friend", false));*/
+        adapter.data.add(new Todo("Meeting with a friend", false));
         rvTodo.setAdapter(adapter);
         rvTodo.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
 
         FloatingActionButton fab = findViewById(R.id.fab_new_todo);
         fab.setOnClickListener(this);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        new MenuInflater(this).inflate(R.menu.todo_select, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.item_select) {
+            adapter.enableSelection();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
