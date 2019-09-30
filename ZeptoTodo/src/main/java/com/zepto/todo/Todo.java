@@ -1,10 +1,15 @@
 package com.zepto.todo;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 /**
  * Created by Junaid on 11,Sep,2019
  */
+@Entity
 public class Todo {
-
+    @PrimaryKey(autoGenerate = true)
+    int id;
     String desc = "";
     boolean isSelected = false;
 
