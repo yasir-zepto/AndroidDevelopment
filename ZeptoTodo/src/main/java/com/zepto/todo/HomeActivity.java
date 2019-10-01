@@ -1,6 +1,7 @@
 package com.zepto.todo;
 
 import android.app.Activity;
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +16,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
     TodoAdapter adapter = new TodoAdapter();
     private RecyclerView rvTodo;
@@ -24,7 +28,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         rvTodo = findViewById(R.id.rv_todo);
-        adapter.data.add(new Todo("My First dummy Todo", false));
+       /* adapter.data.add(new Todo("My First dummy Todo", false));
         adapter.data.add(new Todo("Create Todo App", false));
         adapter.data.add(new Todo("Create List View", false));
         adapter.data.add(new Todo("Exercise at 4 pm", false));
@@ -48,7 +52,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         adapter.data.add(new Todo("Meeting with a friend", false));
         adapter.data.add(new Todo("Meeting with a friend", false));
         adapter.data.add(new Todo("Meeting with a friend", false));
-        adapter.data.add(new Todo("Meeting with a friend", false));
+        adapter.data.add(new Todo("Meeting with a friend", false));*/
         rvTodo.setAdapter(adapter);
         rvTodo.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
 
@@ -56,6 +60,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         fab.setOnClickListener(this);
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.data = getAllTodos();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -90,5 +100,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             rvTodo.scrollToPosition(0);
             Log.d("todo_recieved", result);
         }
+    }
+
+
+    private List<Todo> getAllTodos() {
+        return Room.databaseBuilder(this, TodoDatabase.class, "First_DB").allowMainThreadQueries().build().getTodoDao().getAllTodos();
     }
 }

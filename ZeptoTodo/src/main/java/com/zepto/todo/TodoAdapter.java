@@ -10,13 +10,14 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Junaid on 11,Sep,2019
  */
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoVH> {
 
-    public ArrayList<Todo> data = new ArrayList<>();
+    public List<Todo> data = new ArrayList<>();
 
     boolean shouldSelect = false;
 
