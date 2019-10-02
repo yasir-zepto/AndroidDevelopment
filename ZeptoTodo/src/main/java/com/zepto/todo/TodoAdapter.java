@@ -20,6 +20,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoVH> {
     public List<Todo> data = new ArrayList<>();
 
     boolean shouldSelect = false;
+    private OnItemClickListener onItemClickListener = null;
 
     @NonNull
     @Override
@@ -38,7 +39,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoVH> {
     }
 
 
-    public void enableSelection() {
+    void enableSelection() {
         if (shouldSelect) {
             shouldSelect = false;
             for(int i =0; i < data.size(); ++i) {
@@ -51,6 +52,10 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoVH> {
             shouldSelect = true;
             notifyDataSetChanged();
         }
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     class TodoVH extends RecyclerView.ViewHolder {
@@ -66,10 +71,15 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoVH> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    boolean state = data.get(position).isSelected;
-                    data.get(position).isSelected = !state;
-                    notifyItemChanged(position);
+                    if (shouldSelect) {
+
+                        int position = getAdapterPosition();
+                        boolean state = data.get(position).isSelected;
+                        data.get(position).isSelected = !state;
+                        notifyItemChanged(position);
+                    } else if (onItemClickListener != null) {
+                        onItemClickListener.onItemClick(data.get(getAdapterPosition()), getAdapterPosition());
+                    }
                 }
             });
         }

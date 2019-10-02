@@ -19,7 +19,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener, OnItemClickListener {
     TodoAdapter adapter = new TodoAdapter();
     private RecyclerView rvTodo;
 
@@ -58,6 +58,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         FloatingActionButton fab = findViewById(R.id.fab_new_todo);
         fab.setOnClickListener(this);
+        adapter.setOnItemClickListener(this);
     }
 
 
@@ -93,17 +94,43 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            String result = data.getStringExtra("todo");
-            Todo todo = new Todo(result, false);
-            adapter.data.add(0, todo);
-            adapter.notifyItemInserted(0);
-            rvTodo.scrollToPosition(0);
-            Log.d("todo_recieved", result);
+            if (requestCode == 101) {
+
+                String result = data.getStringExtra("todo");
+                Todo todo = new Todo(result, false);
+                adapter.data.add(0, todo);
+                adapter.notifyItemInserted(0);
+                rvTodo.scrollToPosition(0);
+                Log.d("todo_received", result);
+            } else if (requestCode == 102) {
+                if (data != null) {
+                    Todo todo = (Todo) data.getSerializableExtra("todo");
+                    int index = data.getIntExtra("index", -1);
+                    boolean isDelete = data.getBooleanExtra("isDelete", false);
+                    if (isDelete) {
+                        adapter.data.remove(index);
+                        adapter.notifyItemRemoved(index);
+                    } else if (todo != null && index != -1) {
+                        Todo currentTodo = adapter.data.get(index);
+                        currentTodo.desc = todo.desc;
+                        adapter.notifyItemChanged(index);
+                    }
+                }
+            }
         }
     }
 
 
     private List<Todo> getAllTodos() {
         return Room.databaseBuilder(this, TodoDatabase.class, "First_DB").allowMainThreadQueries().build().getTodoDao().getAllTodos();
+    }
+
+    @Override
+    public void onItemClick(Todo todo, int position) {
+        Intent intent = new Intent(this, TodoActivity.class);
+        intent.putExtra("todo", todo);
+        intent.putExtra("index", position);
+        startActivityForResult(intent, 102);
+
     }
 }
